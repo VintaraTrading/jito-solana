@@ -22,6 +22,7 @@ pub enum RpcBundleSimulationSummary {
     Failed {
         error: RpcBundleExecutionError,
         tx_signature: Option<String>,
+        tx_logs: Option<Vec<String>>,
     },
     Succeeded,
 }
