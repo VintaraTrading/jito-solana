@@ -3312,11 +3312,22 @@ pub mod utils {
                     }
                     _ => None,
                 };
+
+                let tx_logs = match e {
+                    LoadAndExecuteBundleError::TransactionError {
+                        execution_result, ..
+                    } => execution_result
+                        .details()
+                        .map(|details| details.log_messages.clone())
+                        .flatten(),
+                    _ => None,
+                };
                 RpcBundleSimulationSummary::Failed {
                     error: RpcBundleExecutionError::from(BundleExecutionError::TransactionFailure(
                         e.clone(),
                     )),
                     tx_signature,
+                    tx_logs,
                 }
             }
         };
